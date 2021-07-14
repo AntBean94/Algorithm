@@ -1,7 +1,14 @@
 # BOJ 2750 수 정렬하기
 
 # 퀵 정렬로 풀기
-arr = list(map(int, input().split()))
+import sys
+sys.stdin = open('input.txt', 'r')
+
+N = int(input())
+
+arr = []
+for n in range(N):
+    arr += [int(sys.stdin.readline())]
 
 def QuickSort(arr, start, end):
     if start >= end:
@@ -28,4 +35,4 @@ def QuickSort(arr, start, end):
 
 QuickSort(arr, 0, len(arr) - 1)
 
-print(*arr)
+sys.stdout.write('\n'.join(map(str, arr)))
