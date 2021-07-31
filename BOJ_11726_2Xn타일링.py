@@ -34,5 +34,5 @@ for i in range(n+1):
     if i == 0 or i == 1:
         arr[i] = 1
     else:
-        arr[i] = arr[i-2] + arr[i-1]
+        arr[i] = (arr[i-2] + arr[i-1]) % 10007
 print(arr[n] % 10007)
