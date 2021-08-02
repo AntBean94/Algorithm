@@ -1,6 +1,6 @@
 # BOJ 14501 퇴사
 
-# 완전 탐색
+# 완전 탐색(브루트포스)
 
 import sys
 import itertools
