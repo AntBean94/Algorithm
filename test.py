@@ -1,22 +1,11 @@
-n = input()
+import sys
+import itertools
 
-loc = 0
-lth = 1
-start = n[loc]
-while lth <= (1/2) * len(n) and loc + lth < len(n):
-    num = int(n[loc:loc+lth])
-    nxt = num + 1
-    lth_n = len(str(nxt))
-    if nxt == int(n[loc+lth:loc+lth+lth_n]):
-        loc += lth
-        lth = lth_n
-    else:
-        loc = 0
-        lth += 1
-        start = n[loc:loc+lth]
-end = n[len(n)-lth:]
-if lth > 1/2 * len(n):
-    if int(start)+1 != int(end):
-        start = n
-        end = n
-print(start, end)
+a = 0
+char = ""
+for i in itertools.combinations([i for i in range(20)], 10):
+    char += " ".join(map(str, i))
+    char += "\n"
+    a += 1
+sys.stdout.write(char)
+print(a)
