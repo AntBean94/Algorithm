@@ -29,12 +29,8 @@ def bfs(start, maps):
         Q.append(s)
     while Q:
         t = Q.pop()
-        # print(t)
-        # print(Q)
         y, x = t[0], t[1]
-        # print(maps)
         for d in range(4):
-            # print(d)
             n_y = y + dy[d]
             n_x = x + dx[d]
             if 0 <= n_y < N and 0 <= n_x < M:
