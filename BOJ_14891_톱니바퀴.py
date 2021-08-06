@@ -60,7 +60,6 @@ for n, d in cycle_info:
         else:
             break
 
-    # print(cyc, dir)
     # 톱니바퀴 회전
     for i in range(len(cyc)):
         a = cyc.pop(0) - 1
@@ -71,7 +70,6 @@ for n, d in cycle_info:
         # 역방향
         else:
             gears[a] = gears[a][1:] + gears[a][0]
-    # print(gears)
 
 # 점수계산
 point = 0
