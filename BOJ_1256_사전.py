@@ -73,19 +73,45 @@ azaaz
 '''
 
 N, M, K = map(int, input().split())
+ans = ""
 
 # 1. 경우의 수 테이블 제작
+cases = [[0] * (N+1) for _ in range(M+1)]
+cases[0][0] = 1
 
 # 2. 경우의 수를 적립
+for i in range(M+1):
+    for j in range(N+1):
+        y = i + 1
+        x = j + 1
+        if y < M + 1:
+            cases[y][j] += cases[i][j]
+        if x < N + 1:
+            cases[i][x] += cases[i][j]
 
+# 조건 체크
+if cases[M][N] < K:
+    ans = -1
 # 3. 문자열을 하나씩 만든다.
-    # 3-1. a 가능한지 체크
-    # 열을 하나뺀 테이블의 가장 높은 수가 가능한지
+else:
+    numA, numZ = N, M
+    seq = K
+    while len(ans) < N + M:
 
-    # 가능하다면 a 하나빼고 다시 함수 호출
+        # 3-1. a 가능한지 체크
+        if cases[numZ][numA - 1] >= seq:
+            ans += 'a'
+            numA -= 1
+        else:
+            seq -= cases[numZ][numA - 1]
+            ans += 'z'
+            numZ -= 1
+        # 하나만 남은 경우 종료
+        if numA == 0:
+            ans += 'z' * numZ
+            break
+        if numZ == 0:
+            ans += 'a' * numA
+            break
 
-    # 불가능하다면 순서 = 순서 - a케이스
-    # z 하나빼고 다시 함수 호출
-
-    
-
+print(ans)
