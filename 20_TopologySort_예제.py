@@ -57,5 +57,3 @@ def topology_sort():
     print(*result)
 
 topology_sort()
-
-
