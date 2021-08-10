@@ -233,8 +233,10 @@ def cal_case(ledder, row, stack):
         return 0
 
 # 2. 탐색하기 (사다리 정보, 깊이 = 1, 선 갯수)
-def backT(ledder, r, line):
+def backT(ledder, r, line, k):
     global ans
+    if line > k:
+        return
     # 탈출 조건
     if r == N+1:
         # print('line', line)
@@ -244,8 +246,7 @@ def backT(ledder, r, line):
                 print(ans)
                 exit()
         return
-    if line > 3:
-        return
+
     # 가능한 경우의 수 체크(stack: 가능한, e: 오른쪽 갯수)
     stack = []
     s = cal_case(ledder, r, stack)
@@ -265,19 +266,21 @@ def backT(ledder, r, line):
                 # for _ in ledder:
                 #     print(_)
                 # print()
-                backT(ledder, r + 1, line)
+                backT(ledder, r + 1, line, k)
             # 지우기
             for c in case:
                 ledder[r][c] = 0
                 ledder[r+1][c] = 0
                 line -= 1
 
-# for _ in ledder:
-#     print(_)
-# print()
-backT(ledder, 1, 0)
+for _ in ledder:
+    print(_)
+print()
+
+for k in range(4):
+    backT(ledder, 1, 0, k)
+    if ans < 4:
+        print(ans)
+        break
 if ans > 3:
     print(-1)
-else:
-    print(ans)
-
