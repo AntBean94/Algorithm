@@ -190,97 +190,71 @@ input = sys.stdin.readline
 N, M, H = map(int, input().split())
 
 # 1. 맵 그리기
-ledder = [[0] * (H+1) for _ in range(N+1)]
+ladder = [[0] * (H+1) for _ in range(N+1)]
 
 for m in range(M):
     a, b = map(int, input().split())
-    ledder[b][a] = b + 1
-    ledder[b + 1][a] = b
+    ladder[b][a] = b + 1
+    ladder[b + 1][a] = b
 
 ans = 100000000
 
-def check(ledder, row):
-    isP = []
-    for i in ledder[row]:
-        # 0이 아니면
-        if i:
-            # 스택이 비어있지 않다면
-            if isP:
-                if isP[-1] == i:
-                    isP.pop(-1)
-                else:
-                    isP.append(i)
-            # 비어있다면
-            else:
-                isP.append(i)
-    if isP:
-        return False
-    else:
-        return True
+def check(ladder, row):
+    for i in range(1, N+1):
+        loc = ladder[i][1]
+        y, x = i, 1
+        for _ in range(1, H+1):
+            if ladder[y][x] != 0:
+                y = ladder[y][x]
+            x += 1
+        if y != i:
+            return False
+    return True
 
-def cal_case(ledder, row, stack):
-    cnt = 0
+def cal_case(ladder, row, stack):
     for i in range(1, H+1):
-        if ledder[row][i]:
-            cnt += 1
-        else:
+        if not ladder[row][i]:
             # 사다리를 그릴 수 있는 행
-            if row + 1 <= N and not ledder[row+1][i]:
+            if row + 1 <= N and not ladder[row+1][i]:
                 stack.append(i)
-    if cnt % 2:
-        return 1
-    else:
-        return 0
 
-# 2. 탐색하기 (사다리 정보, 깊이 = 1, 선 갯수)
-def backT(ledder, r, line, k):
+# 2. 탐색하기 (사다리 정보, 깊이 = 1, 선 갯수, 가능한 갯수)
+def backT(ladder, r, line, k):
     global ans
     if line > k:
         return
     # 탈출 조건
     if r == N+1:
-        # print('line', line)
-        if line < ans:
+        if line < ans and check(ladder, r):
             ans = line
-            if ans == 0:
+            if ans == k:
                 print(ans)
                 exit()
         return
 
     # 가능한 경우의 수 체크(stack: 가능한, e: 오른쪽 갯수)
     stack = []
-    s = cal_case(ledder, r, stack)
-    e = len(stack)
-    # print(r, stack, s, e)
+    if k > line:
+        cal_case(ladder, r, stack)
 
-    for i in range(s, 3, 2):
+    # 가지를 그릴 수 있는 경우의 수(0, 1, ... , k - 라인)
+    for i in range(0, k - line + 1):
         for case in comb(stack, i):
             # 그리기
-            # print(case)
-            for c in list(case):
-                ledder[r][c] = r + 1
-                ledder[r+1][c] = r
+            for c in case:
+                ladder[r][c] = r + 1
+                ladder[r+1][c] = r
                 line += 1
             # 검증
-            if check(ledder, r):
-                # for _ in ledder:
-                #     print(_)
-                # print()
-                backT(ledder, r + 1, line, k)
+            backT(ladder, r + 1, line, k)
             # 지우기
             for c in case:
-                ledder[r][c] = 0
-                ledder[r+1][c] = 0
+                ladder[r][c] = 0
+                ladder[r+1][c] = 0
                 line -= 1
-
-for _ in ledder:
-    print(_)
-print()
+    return
 
 for k in range(4):
-    backT(ledder, 1, 0, k)
-    if ans < 4:
-        print(ans)
-        break
+    backT(ladder, 1, 0, k)
 if ans > 3:
     print(-1)
