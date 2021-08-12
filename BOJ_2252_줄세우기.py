@@ -1,5 +1,15 @@
 # BOJ 2252 줄 세우기
 
+'''풀이
+위상정렬 문제
+
+1. 입력값으로 진입차수배열과 그래프를 그린다.
+2. 진입차수가 0인 값을 찾아 큐에 넣는다.
+3. 진입차수가 0인 값을 기준으로 bfs
+4. 노드를 방문하면 진입차수를 감소시킨다.
+5. 진입차수가 0이 되면 큐에 삽입
+'''
+
 from collections import deque
 import sys
 input = sys.stdin.readline
