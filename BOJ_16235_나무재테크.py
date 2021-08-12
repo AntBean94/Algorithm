@@ -45,17 +45,14 @@ A = [list(map(int, input().split())) for _ in range(N)]
 # 현재 양분 정보(field)
 F = [[5] * N for _ in range(N)]
 # 나무 정보
-tmp = []
-for i in range(M):
-    tmp.append(list(map(int, input().split())))
-# 초기 셋팅
 T = [list(list() for _ in range(N)) for _ in range(N)]
-# tmp.sort(key=lambda x: x[2])
-for y, x, z in tmp:
+for i in range(M):
+    y, x, z = map(int, input().split())
     T[y-1][x-1].append(z)
 # 8방향
 dx = [0, 1, 1, 1, 0, -1, -1, -1]
 dy = [-1, -1, 0, 1, 1, 1, 0, -1]
+
 # 번식 함수
 def breed(adult, Tree):
     for y, x in adult:
@@ -64,7 +61,6 @@ def breed(adult, Tree):
             nx = x + dx[d]
             if 0 <= ny < N and 0 <= nx < N:
                 Tree[ny][nx].append(1)
-                # print('나무 앙')
 
 # 반복문 시작
 for k in range(K):
@@ -92,25 +88,12 @@ for k in range(K):
             F[i][j] += neut
 
     # 번식하기
-    # print('adult', adult)
     breed(adult, T)
 
     # 양분추가
     for i in range(N):
         for j in range(N):
             F[i][j] += A[i][j]
-
-    # 결과 출력
-    # print()
-    # print('F')
-    # for f in F:
-    #     print(f)
-
-    # print('T')
-    # for t in T:
-    #     print(t)
-    # print()
-
 
 ans = 0
 for i in range(N):
