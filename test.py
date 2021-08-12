@@ -1,6 +1,2 @@
-N = 8
-ans = -1
-
-ans = (1 - 3) % 5
-print(ans)
-
+arr = [1, 2, 3, 4, 5]
+print(arr[1:-1])
