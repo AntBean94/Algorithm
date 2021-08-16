@@ -1,4 +1,4 @@
-# BOJ 11375 열혈 강호
+# BOJ 11375 열혈강호
 
 import sys
 sys.setrecursionlimit(100000)
