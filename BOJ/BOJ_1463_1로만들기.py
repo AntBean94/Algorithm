@@ -4,9 +4,7 @@ N = int(input())
 
 arr = [0] * (N + 1)
 for i in range(N, 1, -1):
-    # 3으로 나누기
     if i % 3 == 0:
-        # 최솟값 여부 확인
         if arr[i // 3] == 0:
             arr[i // 3] = arr[i] + 1
         else:
