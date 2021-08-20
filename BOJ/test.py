@@ -1,2 +1,2 @@
-arr = [1, 2, 3, 4, 5]
-print(arr[1:-1])
+char = '1 2345'
+print(char.split())
