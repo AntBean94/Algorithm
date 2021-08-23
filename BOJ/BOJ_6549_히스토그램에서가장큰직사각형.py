@@ -3,3 +3,8 @@
 import sys
 input = sys.stdin.readline
 
+'''
+접근방법
+
+
+'''
