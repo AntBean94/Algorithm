@@ -24,6 +24,7 @@
 '''
 
 import sys, math
+sys.setrecursionlimit(100000000)
 input = sys.stdin.readline
 INF = 1000000001
 def segment_tree(arr, tree, node, start, end):
@@ -40,24 +41,24 @@ def segment_tree(arr, tree, node, start, end):
         return tree[node]
 
 def find_min(tree, node, start, end, left, right):
-    # print(start, end)
     if left > end or right < start: return INF
     elif left <= start and end <= right: return tree[node]
     else:
         left_idx = find_min(tree, node*2, start, (start+end)//2, left, right)
         right_idx = find_min(tree, node*2+1, (start+end)//2+1, end, left, right)
+        if left_idx == INF: return right_idx
+        elif right_idx == INF: return left_idx
         if arr[left_idx] <= arr[right_idx]: return left_idx
         else: return right_idx
 
 def find_area(arr, tree, start, end):
-    print(start, end)
     if start == end: return arr[start]
     # 최솟값 찾기
     min_idx = find_min(tree, 1, 1, N, start, end)
-    print('min_idx', min_idx, start, end)
-    area = (end - start - 1) * arr[min_idx]
-    sub_area = max(find_area(arr, tree, start, min_idx-1), find_area(arr, tree, min_idx+1, end))
-    # print(area, sub_area)
+    area = (end - start + 1) * arr[min_idx]
+    if min_idx == start: sub_area = find_area(arr, tree, min_idx+1, end)
+    elif min_idx == end: sub_area = find_area(arr, tree, start, min_idx-1)
+    else: sub_area = max(find_area(arr, tree, start, min_idx-1), find_area(arr, tree, min_idx+1, end))
     return max(area, sub_area)
 
 # 테스트케이스 반복
@@ -70,7 +71,6 @@ while True:
     tree = [0] * (2 ** H)
     # 세그먼트 트리 구현
     segment_tree(arr, tree, 1, 1, N)
-    print(tree)
     # 분할 정복 알고리즘
     result = find_area(arr, tree, 1, N)
     print(result)
