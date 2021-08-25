@@ -43,7 +43,11 @@ def find_min(tree, node, start, end, left, right):
     # print(start, end)
     if left > end or right < start: return INF
     elif left <= start and end <= right: return tree[node]
-    else: return min(find_min(tree, node*2, start, (start+end)//2, left, right), find_min(tree, node*2+1, (start+end)//2+1, end, left, right))
+    else:
+        left_idx = find_min(tree, node*2, start, (start+end)//2, left, right)
+        right_idx = find_min(tree, node*2+1, (start+end)//2+1, end, left, right)
+        if arr[left_idx] <= arr[right_idx]: return left_idx
+        else: return right_idx
 
 def find_area(arr, tree, start, end):
     print(start, end)
