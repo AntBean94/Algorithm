@@ -14,3 +14,9 @@ def multiple(a, b, c):
 
 ans = multiple(a, b, c)
 print(ans)
+
+'''
+파이썬 내장함수 pow를 사용하면
+print(pow(*map(int, input().split())))
+
+'''
