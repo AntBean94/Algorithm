@@ -1,1 +1,1 @@
-print(len(input()))
+print(bin(3)[-1])
