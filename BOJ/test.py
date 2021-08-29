@@ -1,1 +1,1 @@
-print(bin(3)[-1])
+print(type(bin(10000000000)[-1]))

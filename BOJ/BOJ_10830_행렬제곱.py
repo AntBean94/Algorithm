@@ -17,14 +17,14 @@ A^B = A
 '''
 
 import sys
-sys.setrecursionlimit(1000000000)
 input = sys.stdin.readline
 
 N, B = map(int, input().split())
 A = [list(map(int, input().split())) for _ in range(N)]
-
+K = 0
 # 행렬 곱 함수
 def multiple(arr_a, arr_b):
+    global K
     arr = [[0] * N for _ in range(N)]
     for i in range(N):
         for j in range(N):
@@ -36,10 +36,12 @@ def multiple(arr_a, arr_b):
 
 # 분할 정복
 def find_matrix(arr, b):
+    # print(b)
     if b == 1:
         return arr
     # 홀수인경우
-    elif bin(b)[-1]:
+    elif bin(b)[-1] == "1":
+        print(b)
         return multiple(arr, find_matrix(arr, b-1))
     # 짝수인경우
     else:
@@ -48,4 +50,6 @@ def find_matrix(arr, b):
 
 ans = find_matrix(A, B)
 for ro in ans:
-    print(*ro)
+    for r in ro:
+        print(r % 1000, end=" ")
+    print()
