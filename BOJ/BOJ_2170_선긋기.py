@@ -17,11 +17,14 @@
 '''
 
 import sys
+import heapq
 input = sys.stdin.readline
 
 N = int(input())
-line = [list(map(int, input().split())) for _ in range(N)]
-line.sort()
+line = []
+for i in range(N):
+    a, b = map(int, input().split())
+    heapq.heappush(line, [a, b])
 
 ans = 0
 pre_st, pre_end = line[0][0], line[0][1]
@@ -38,6 +41,3 @@ for i in range(1, N):
 
 ans += pre_end - pre_st
 print(ans)
-        
-        
-
