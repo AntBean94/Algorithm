@@ -32,7 +32,7 @@
       따라서, 다익스트라 알고리즘에서의 최적의 해를 항상 포함
     - 음수 간선의 순환을 감지 가능
     - 시간복잡도: O(VE) - 다익스트라보다 느리다.
-    
+
 '''
 
 
@@ -54,7 +54,7 @@ def bellman_ford(start):
             cost = graph[j][2]
             # start에서 now를 거쳐 nxt로 가는 최단거리가 갱신 가능한지 확인
             # 즉 j번 간선을 거쳐서 최단거리를 갱신할 수 있는지 확인
-            if dist[now] != INF and dist[now] + cost > dist[nxt]:
+            if dist[now] != INF and dist[now] + cost < dist[nxt]:
                 dist[nxt] = dist[now] + cost
                 # N 번째에도 갱신이 이루어진다면 음수 순환이 있다는 의미
                 if i == N - 1:
