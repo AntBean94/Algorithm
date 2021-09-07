@@ -12,16 +12,14 @@
 2. 각 카드별 위치 중 먼저 탐색할 카드의 위치를 결정
 3. bfs로 최단거리를 측정한다.
 
-
-
 '''
 
 import itertools
 
 def solution(board, r, c):
-    for b in board:
-        print(b)
-    print()
+    # for b in board:
+    #     print(b)
+    # print()
     answer = []
     # 1. 카드의 위치와 갯수 탐색
     loc = {}
@@ -53,7 +51,7 @@ def solution(board, r, c):
                     # 그 외의 경우 모두 1증가
                     else: cost = vis[y][x] + 1
                     # 거리가 더 가까울경우에만 초기화
-                    if vis[ny][nx] == 0 or cost < vis[ny][nx]:
+                    if vis[ny][nx] == 0 or cost <= vis[ny][nx]:
                         vis[ny][nx] = cost
                         q.append([ny, nx, d])
 
@@ -68,8 +66,10 @@ def solution(board, r, c):
             # for b in board:
             #     print(b)
             # print()
-            if seq == (2, 3, 1):
-                print(dist)
+            # if seq == (2, 3, 1):
+            #     print(dist)
+            if dist == 15:
+                print(seq)
             answer.append(dist)
             return
         # print(k, '---------------')
@@ -89,12 +89,12 @@ def solution(board, r, c):
                 ny, nx = loc[card][j][0], loc[card][j][1]
                 board[ny][nx] = 0
                 cnt += vis[ny][nx] - 1
-                if seq == (2, 3, 1):
-                    print(ny, nx)
-                    print(cnt)
-                    for v in vis:
-                        print(v)
-                    print()
+                # if seq == (2, 3, 1):
+                #     print(ny, nx)
+                #     print(cnt)
+                #     for v in vis:
+                #         print(v)
+                #     print()
                 # print(vis[y][x])
                 # print(cnt)
             # 다음 카드 탐색
@@ -105,19 +105,24 @@ def solution(board, r, c):
             board[loc[card][0][0]][loc[card][0][1]] = card
             board[loc[card][1][0]][loc[card][1][1]] = card
 
-    print()
+    # print()
     # 2. 탐색할 카드의 순서를 결정
     for case in itertools.permutations(n, len(n)):
-        print(case)
+        # print(case)
         solver(case, 0, r, c, 0, answer)
-    answer = min(answer)
+    answer = min(answer) + len(n) * 2
     # answer = min(answer)
     return answer
 
 
 test_case = [
     [[[1,0,0,3],[2,0,0,0],[0,0,0,2],[3,0,1,0]], 1, 0],
-    [[[3,0,0,2],[0,0,1,0],[0,1,0,0],[2,0,0,3]], 0, 1]
+    [[[3,0,0,2],[0,0,1,0],[0,1,0,0],[2,0,0,3]], 0, 1],
+    # [[[1, 2, 0, 2], [3, 0, 4, 5], [5, 0, 1, 6], [3, 4, 0, 6]], 1, 1]
+    [[[1, 2, 2, 1], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], 0, 1],
+    [[[1, 2, 1, 2], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], 0, 1],
+    [[[1, 0, 0, 3], [0, 2, 0, 0], [0, 0, 2, 0], [3, 0, 0, 1]], 2, 0],
+    [[[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 1]], 3, 1]
 ]
 for tc in test_case:
     print(solution(tc[0], tc[1], tc[2]))
