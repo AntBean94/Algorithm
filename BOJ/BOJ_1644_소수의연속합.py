@@ -1,4 +1,4 @@
-# BOJ 1644 연속합
+# BOJ 1644 소수의 연속합
 
 '''
 1. N 이하의 소수 배열 생성
@@ -18,7 +18,7 @@ def prime(n):
             k = i * i
             save[k // 2::i] = [False] * ((n - k - 1) // (2 * i) + 1)
     return [2] + [2 * i + 1 for i in range(1, n // 2) if save[i]]
-    
+
 primes = prime(N)
 new_arr = [0]
 pre = 0
