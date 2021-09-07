@@ -59,46 +59,59 @@ def solution(board, r, c):
 
     # 순서대로 탐색하는 재귀 함수
     def solver(seq, k, y, x, dist, answer):
+        ny, nx = y, x
+        # print(k, dist)
         # 탈출 조건
         if k == len(seq):
+            # if dist == 9:
+            #     print('and', seq)
             # for b in board:
             #     print(b)
             # print()
-            # print(k)
+            if seq == (2, 3, 1):
+                print(dist)
             answer.append(dist)
             return
-        print(k, '---------------')
+        # print(k, '---------------')
         # 카드 순서별로 탐색
         card = seq[k]
         # 같은 카드간의 순서 결정
         for i in range(2):
             cnt = 0
             for j in opt[i]:
-                board[y][x] = 0
                 vis = [[0] * 4 for _ in range(4)]
-                bfs(vis, y, x)
+                bfs(vis, ny, nx)
 
                 # if k == 0:
                 #     for v in vis:
                 #         print(v)
                 #     print()
-                y, x = loc[card][j][0], loc[card][j][1]
+                ny, nx = loc[card][j][0], loc[card][j][1]
+                board[ny][nx] = 0
+                cnt += vis[ny][nx] - 1
+                if seq == (2, 3, 1):
+                    print(ny, nx)
+                    print(cnt)
+                    for v in vis:
+                        print(v)
+                    print()
                 # print(vis[y][x])
-                cnt += vis[y][x] - 1
-            print(cnt)
+                # print(cnt)
             # 다음 카드 탐색
-            solver(seq, k+1, y, x, dist + cnt, answer)
+            solver(seq, k+1, ny, nx, dist + cnt, answer)
 
-            # 카드 탐색 끝났다면 카드 복구
+            # 카드 탐색 끝났다면 좌표 및 카드 복구
+            ny, nx = y, x
             board[loc[card][0][0]][loc[card][0][1]] = card
             board[loc[card][1][0]][loc[card][1][1]] = card
 
     print()
     # 2. 탐색할 카드의 순서를 결정
     for case in itertools.permutations(n, len(n)):
+        print(case)
         solver(case, 0, r, c, 0, answer)
-    # answer = min(answer) + len(n) * 2
     answer = min(answer)
+    # answer = min(answer)
     return answer
 
 
