@@ -31,6 +31,7 @@ def bfs(y, x):
                     # case 1. 방문 기록이 없을 때(큐에 넣는다.)
                     if not vis[ny][nx]: 
                         heapq.heappush(Q, [-nh, ny, nx])
+                    # case 2. 방문 기록이 있다면 방문 값만 추가
                     vis[ny][nx] += vis[y][x]
 
 vis = [[0] * M for _ in range(N)]
