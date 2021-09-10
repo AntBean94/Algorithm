@@ -1,2 +1,2 @@
-import itertools
-print(list(set(list(map(str ,input().split())))))
+a = '12345'
+print(a[1:-1])
