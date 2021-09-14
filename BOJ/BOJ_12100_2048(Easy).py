@@ -75,23 +75,26 @@ move_idx = [1, -1, -1, 1]
 axis = [2, 1, 2, 1]
 hor = [1, 2, 1, 2]
 
-def move_num(arr, d):
+def move_num(arr, d, route):
     new_arr = []
     # 정렬
     # 위 또는 아래 방향인 경우
     if d == 0 or d == 2:
-        arr.sort(key=lambda x: x[2])
+        arr.sort(key=lambda x: (x[2], x[1]))
     # 좌 또는 우 방향인 경우
     else:
-        arr.sort(key=lambda x: x[1])
+        arr.sort(key=lambda x: (x[1], x[2]))
 
     # 하나씩 뽑아서 변환
     cnt = start[d]
     queue = []
     # 여기서부터 중요
-    for a in arr:
+    for a in arr[::move_idx[d]]:
         # 큐가 비어있다면 채운다.
-        if not queue: queue.append(a)
+        if not queue:
+            # new의 마지막 값과 축이 다르면 카운트 초기화
+            if new_arr and a[axis[d]] != new_arr[-1][axis[d]]: cnt = start[d]
+            queue.append(a)
         # 비어있지 않다면 가장 마지막 값과 비교
         else:
             last = queue[-1]
@@ -100,13 +103,13 @@ def move_num(arr, d):
                 # 값이 같다면 합치고 뺀다.
                 if a[0] == last[0]:
                     queue = []
-                    new = [a[0] * 2, a[1], a[2]]
+                    new = list([a[0] * 2, a[1], a[2]])
                     cnt += move_idx[d]
                     new[hor[d]] = cnt
                     new_arr.append(new)
                 # 값이 다르다면 앞에있는 값을 빼고 new에 넣는다.
                 else:
-                    new = queue.pop()
+                    new = list(queue.pop())
                     cnt += move_idx[d]
                     new[hor[d]] = cnt
                     new_arr.append(new)
@@ -115,7 +118,7 @@ def move_num(arr, d):
             # 같은 축을 공유하지 않는다면
             else:
                 # 기존 큐를 비우면서 좌표를 새로 부여하고 new에 넣는다.
-                new = queue.pop()
+                new = list(queue.pop())
                 cnt += move_idx[d]
                 new[hor[d]] = cnt
                 new_arr.append(new)
@@ -123,10 +126,9 @@ def move_num(arr, d):
                 cnt = start[d]
                 # 새로운 값을 큐에 넣는다.
                 queue.append(a)
-
     # 큐에 값이 남아있다면 처리
     if queue:
-        new = queue.pop()
+        new = list(queue.pop())
         cnt += move_idx[d]
         new[hor[d]] = cnt
         new_arr.append(new)
@@ -134,12 +136,9 @@ def move_num(arr, d):
     return new_arr
 
 # 보드가 꼭 필요할까?
-def main_game(board, status, k, route):
+def main_game(status, k, route):
     global ans
-    # if route == '1':
-    #     print(status)
-    print(status, route)
-    if k == 1:
+    if k == 5:
         # 최댓값 갱신
         max_val = sorted(status, reverse=True)[0][0]
         if max_val > ans:
@@ -149,9 +148,9 @@ def main_game(board, status, k, route):
     # 완전 탐색
     for d in range(4):
         # 값 변경
-        new_status = move_num(status, d)
-        # 재귀 호출(빠져나오면서 다시 바뀜)
-        main_game(board, new_status, k + 1, route + str(d))
+        new_status = move_num(status, d, route)
+        # 재귀 호출
+        main_game(new_status, k + 1, route + str(d))
 
 
 # 초기 좌표 등록
@@ -161,5 +160,5 @@ for i in range(N):
             status.append([board[i][j], i, j])
 
 route = ""
-main_game(board, status, 0, route)
+main_game(status, 0, route)
 print(ans)
