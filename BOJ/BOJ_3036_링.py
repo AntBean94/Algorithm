@@ -9,7 +9,6 @@ def gcd(n, m):
     if n % m == 0: return m
     else: return gcd(m, n % m)
     
-
 first = ring[0]
 for n in ring[1:]:
     # 기약분수 형태(분자, 분모를 최대공약수로 나눈 값)
