@@ -101,26 +101,57 @@ def main():
     1) 과거 대여 요청 기록 분석
       - 과거 대여 요청 기록을 분석하여 시간대별로 각 대여소의 평균 요청수를 계산한다.
     2) 대여소 우선순위 선정
-      - 대여소별로 평균 대여 요청수와 현재 자전거 보유 대수가 가장 많이 차이나는 10군데의 장소(*최적화 필요)를 내림차순으로 선정한다.
+      - 대여소별로 평균 대여 요청수와 현재 자전거 보유 대수가 가장 많이 차이나는 5군데의 장소(*최적화 필요)를 내림차순으로 선정한다.
     3) 트럭 커맨드 설정
       - 각 대여소와 기타 정보(보유자전거, 거리, 자전거가 남는 대여소)를 참고하여 가장 코스트가 적은 트럭을 이용하여 자전거를 이동시킨다.
       - 트럭위치를 초기화시킨다.(사용하지 않은 트럭(또는 코스트가 남은 트럭)을 요청트래픽이 몰리는곳으로 사전에 이동, 다음날 평균 트래픽을 분석)
+    
     '''
 
     # 1. 과거 대여 요청 기록 분석
     '''
-    
-    
-    
+    1) 시나리오 다운로드 (1, 2, 3)
+    2) 다음 시간(현재 시간 + 1분)의 평균 요청횟수와 반납횟수 => 이번 시간의 트럭 움직임에 활용(simulate 함수 마지막 절차로 트럭을 움직이므로)
     '''
+    res1 = requests.get('https://grepp-cloudfront.s3.ap-northeast-2.amazonaws.com/programmers_imgs/competition-imgs/2021kakao/problem1_day-1.json')
+    res2 = requests.get('https://grepp-cloudfront.s3.ap-northeast-2.amazonaws.com/programmers_imgs/competition-imgs/2021kakao/problem1_day-2.json')
+    res3 = requests.get('https://grepp-cloudfront.s3.ap-northeast-2.amazonaws.com/programmers_imgs/competition-imgs/2021kakao/problem1_day-3.json')
+    # print(res1.json())
+    res1 = res1.json()
+    res2 = res2.json()
+    res3 = res3.json()
+    # print(res1.keys(), type(res1.keys()))
+    board = [0] * 3600
+    for i in range(720):
+        i = str(i)
+        if i in res1.keys():
+            for start, end, time in res1[i]:
+                board[start] += 1
+        if i in res2.keys():
+            for start, end, time in res2[i]:
+                board[start] += 1
+        if i in res3.keys():
+            for start, end, time in res3[i]:
+                board[start] += 1
+    print(board[:25])
+    print(sorted(board)[::-1][:10])
+        
+        
 
     # 2. 대여소 우선순위 선정
     '''
-    
+    1) 과거 기록(시나리오)에서 다음 시간대의 평균 요청, 반납 횟수 추출
+    2) 현재 시간대의 대여소별 자전거정보에 현재시간대의 평균 요청, 반납 횟수를 반영
+    3) 2의 대여소별 자전거 정보에 1을 반영해 값(평균 요청횟수 - 예상 보유대수)을 산정 후 내림차순 정렬
+
     '''
 
     # 3. 트럭 커맨드 설정
     '''
+    1) 우선순위가 높은 대여소 순으로 다음을 계산
+    - 우선순위가 가장 낮은 대여소 위치(기본: 내림차순 정렬 기준, 최적화: 거리까지 고려), 해당위치와 가장 가까운 트럭을 결정
+    - 트럭: 대여소 방문(우선순위 하), 자전거 픽업, 대여소 방문(우선순위 상), 자전거 하차, 지역 거점 이동
+    - 단, 이동조건을 먼저 계산하고 남은 시간만큼만 자전거를 픽업할 수 있다.
     
     '''
 
