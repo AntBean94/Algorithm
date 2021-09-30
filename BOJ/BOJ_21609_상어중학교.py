@@ -43,9 +43,6 @@ M = 5
 
 중력 작용
 
-
-
-
 '''
 from collections import deque
 
