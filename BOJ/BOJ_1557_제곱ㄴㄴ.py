@@ -67,4 +67,24 @@ A31623(근방의 소수): 약 10억
 
 3. 집합의 갯수까지 시행
 
+
+
 '''
+k = int(input())
+t = 0
+# 소수의 제곱수 배열
+def get_prime(n):
+    if n < 2:
+        return []
+    n += 1
+    save = [1] * (n // 2)
+    for i in range(3, int(n ** 0.5) + 1, 2):
+        if save[i // 2]:
+            k = i * i
+            save[k // 2::i] = [0] * ((n - k - 1) // (2 * i) + 1)
+    return [2] + [(2 * i + 1) for i in range(1, n // 2) if save[i]]
+arr = []
+arr = get_prime(31623)
+
+
+# while t <= k:
