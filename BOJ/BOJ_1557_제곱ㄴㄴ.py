@@ -49,14 +49,22 @@ A37: 1369
 :
 A31623(근방의 소수): 약 10억
 
-
 적절한 N값을 어떻게 결정할지? => 이분탐색 활용
 
+프로세스
+1. 임의의 N값 결정
+2. N보다 작은 제곱수 숫자 측정(a)
+3. N - a = k번 째 제곱수
+4. N - a와 k가 일치하는지 확인
+5. 다르다면 이분탐색으로 범위 조정(더 작다면 s범위 축소, 더 크다면 e범위 축소)
 
+예외처리
 
+3번째
+4 - 1 = 3
+3 - 0 = 3
 '''
-k = int(input())
-t = 0
+K = int(input())
 # 소수의 제곱수 배열
 def get_prime(n):
     if n < 2:
@@ -68,7 +76,58 @@ def get_prime(n):
             k = i * i
             save[k // 2::i] = [0] * ((n - k - 1) // (2 * i) + 1)
     return [2] + [(2 * i + 1) for i in range(1, n // 2) if save[i]]
-arr = get_prime(40000)
-new_arr = [i ** 2 for i in arr]
-print(new_arr)
-# while t <= k:
+arr = get_prime(45000)
+A = [i ** 2 for i in arr]
+# print(len(A))
+L = len(A)
+
+# 임의의 N값 결정
+s = K
+e = 2000000000
+result = 0
+# 이분탐색
+while True:
+    if s == e: break
+    # 임의의 N 결정
+    n = (s + e) // 2
+    # N에 따른 a갯수 확인(포함-배제 원리)
+    a = 0
+    for i in range(L):
+        if A[i] > n: break
+        a += n // A[i]
+        for j in range(i+1, L):
+            if A[i] * A[j] > n: break
+            a -= n // (A[i] * A[j])
+            for l in range(j+1, L):
+                if A[i] * A[j] * A[l] > n: break
+                a += n // (A[i] * A[j] * A[l])
+                for m in range(l+1, L):
+                    if A[i] * A[j] * A[l] * A[m] > n: break
+                    a -= n // (A[i] * A[j] * A[l] * A[m])
+                    for y in range(m+1, L):
+                        if A[i] * A[j] * A[l] * A[m] * A[y] > n: break
+                        a += n // (A[i] * A[j] * A[l] * A[m] * A[y])
+                        for x in range(y+1, L):
+                            if A[i] * A[j] * A[l] * A[m] * A[y] * A[x] > n: break
+                            a -= n // (A[i] * A[j] * A[l] * A[m] * A[y] * A[x])
+    
+    # N이 K번째 제곱 ㄴㄴ수인지 확인(범위 조정)
+    if n - a == K: 
+        result = n
+        break
+    elif n - a > K: e = n
+    else: s = n
+
+# result값보다 작으면서 가장 큰 제곱 ㄴㄴ수를 찾는다.
+ans = 0
+for i in range(result, -1, -1):
+    check = True
+    for j in A:
+        if j > i: break
+        if not i % j:
+            check = False
+            break
+    if check:
+        ans = i
+        break
+print(ans)
