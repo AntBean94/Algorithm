@@ -28,7 +28,6 @@ def bfs(n, k):
     route[n] = n
     while Q:
         x = Q.popleft()
-        # print(x)
         if x == k: break
         for y in move(x):
             if not vis[y]:
@@ -36,10 +35,8 @@ def bfs(n, k):
                 vis[y] = 1
                 route[y] = x
     result = [k]
-    # print(route[:20])
     p = k
     while p != n:
-        # print(p)
         p = route[p]
         result.append(p)
     print(len(result)-1)
