@@ -6,54 +6,28 @@
 2. N번 집의 색은 N-1번, 1번 집의 색과 같지 않아야 한다.
 3. i(2 <= i <= N-1)번 집의 색은 i-1, i+1번 집의 색과 같지 않아야 한다.
 
-6
-10 20 30
-10 20 30
-10 20 30
-10 20 30
-10 20 30
-10 20 30
-
-[r, r, g, g, b, b]
-[b, g, 0, 0, 0, 0]
-[g, b, 0, 0, 0, 0]
-그린, 블루
-
-[10, 10, 20, 20, 30, 30]
-[0, 0, 0, 0, 0, 0]
-
-r시작 r시작
-
-
+방법
+1. 처음부터 시작색을 고정하고 최솟값을 구한다.
+ - 즉 r, g, b 각각의 색으로 출발하는 경우의 최솟값을 각각 구한다.
+2. 최솟값 구하는 방법은 DP
 '''
 import sys
 input = sys.stdin.readline
 
 N = int(input())
-C = [list() for _ in range(N)]
-
-
-'''
-6
-10 20 30
-10 20 30
-10 20 30
-10 20 30
-10 20 30
-10 20 30
-
-3
-10 50 50
-15 15 15
-10 50 50
-
-3
-13 89 99
-49 60 57
-26 40 83
-
-2
-1000 1000 1
-1000 1000 1
-
-'''
+C = [list(map(int, input().split())) for _ in range(N)]
+ans = 1000001
+for n in range(3):
+    T = [[1000001] * 3 for _ in range(N)]
+    T[0][n] = C[0][n]
+    for i in range(1, N):
+        for j in range(3):
+            for k in range(3):
+                if i == N - 1:
+                    if j != k and j != n:
+                        T[i][j] = min(T[i][j], T[i-1][k] + C[i][j])
+                else:
+                    if j != k:
+                        T[i][j] = min(T[i][j], T[i-1][k] + C[i][j])
+    ans = min(ans, min(T[-1]))
+print(ans)
