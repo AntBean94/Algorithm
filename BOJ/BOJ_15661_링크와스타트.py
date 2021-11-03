@@ -1,33 +1,24 @@
 # BOJ 15661 링크와 스타트
 
 '''
-링크와 스타트
+접근 방법
 
-N 명
-인원수는 같지 않아도 되지만 1명 이상
-Sij Sji 모두 더해야 한다.
-=> 애초에 두 점의 합으로 계산
+ex) 
+6명 팀
+팀 A = 1, 2, 5
+팀 B = 3, 4, 6
 
-능력치 차이를 최소화
+sum(A) = x
+sum(B) = y
+중립 = m 일 때,
 
-완탐: 2 ^ 20 = 100만
+y = total - x - m
+y - x = total - 2x - m
 
-4
-0 1 2 3
-4 0 5 6
-7 1 0 2
-3 4 5 0
-
-=>
-
-4
-0 5 9 6
-0 0 6 10
-0 0 0 7
-0 0 0 0
-
-1과 2가 팀이 되면
-
+즉 팀 A멤버의 행, 열의 총합을 구해두고
+총합에서 빼면 중립값은 한번씩, 자신의 값은 두번씩 감소하므로
+sum(B) - sum(A) = y - x 를 만족
+이 값의 최솟값을 찾으면 된다.
 '''
 
 from itertools import combinations
@@ -36,7 +27,20 @@ input = sys.stdin.readline
 
 N = int(input())
 member = [list(map(int, input().split())) for _ in range(N)]
+# 멤버 부분합
+P = [0] * N
+total = sum([sum(m) for m in member])
+for i in range(N):
+    for j in range(N):
+        P[i] += member[i][j]
+        P[j] += member[i][j]
 
-for i in range(1, N // 2 + 1):
+ans = 100000000
+for i in range(2, N // 2 + 1):
     for team_a in combinations([j for j in range(N)], i):
-        print(team_a, type(team_a))
+        result = abs(total - sum(P[i] for i in team_a))
+        if result < ans: ans = result
+        if ans == 0:
+            print(0)
+            exit()
+print(ans)
