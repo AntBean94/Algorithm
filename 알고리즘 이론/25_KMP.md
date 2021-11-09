@@ -39,19 +39,13 @@ fail_table = [0] * (pattern_size)
 
 # 실패함수
 def failFunc(pattern):
-    cnt = 0
     j = 0
     for i in range(1, pattern_size):
+        while j > 0 and pattern[i] != pattern[j]:
+          j = fail_table[j]
         if pattern[i] == pattern[j]:
-            cnt += 1
-            j += 1
-        else:
-            cnt = 0
-            j = 0
-            if pattern[j] == pattern[i]:
-                cnt += 1
-                j += 1
-        fail_table[i] = cnt
+          j += 1
+          fail_table[i] = j
 # 실패함수 실행
 failFunc(pattern)
 
