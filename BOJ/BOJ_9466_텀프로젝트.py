@@ -4,9 +4,10 @@
 2 3 4 5 1 => 5명 한팀
 2 3 4 4 1 => 1명 한팀
 
-
+접근 방법
+1. 각각의 팀과 순서를 기록
+2. 팀이 일치하면서 순서가 다르면 그 순서의 차이만큼 카운트 기록
 '''
-
 
 import sys
 input = sys.stdin.readline
@@ -26,10 +27,6 @@ def dfs(graph, vis, start, t):
             return cnt - vis[y][1]
     return 0
 
-
-
-
-
 T = int(input())
 for tc in range(T):
     N = int(input())
@@ -43,33 +40,3 @@ for tc in range(T):
             ans -= result
             turn += 1
     print(ans)
-
-'''
-6
-2 3 4 5 6 2
-output : 1
-
-5
-2 5 4 5 2
-output : 3
-
-6
-1 3 4 3 2 6
-output : 2
-
-13
-2 4 5 2 4 1 8 9 10 11 9 10 10
-output : 8
-
-10
-2 5 7 1 6 8 8 3 5 10
-output : 6
-
-10
-2 7 10 5 3 3 9 10 6 3
-output : 8
-
-6
-2 1 1 2 6 3
-output : 4
-'''
