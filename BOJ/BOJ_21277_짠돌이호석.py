@@ -7,20 +7,10 @@
 1. 하나의 넓은판에 퍼즐1을 배치
 2. 퍼즐2를 돌려가며 퍼즐1과 비교한다.
 3. 겹치는 범위만 확인하면 됨.
-
 4. 정사각형이라고 하더라도 모서리대 모서리는 비교할 필요가 없음
-
-기준 최솟값을 정해둔다.
-
-수평
-max(N1, N2) * (M1 + M2)
-max(N1, M2) * (M1 + N2)
-
-수직
-(N1 + N2) * max(M1 + M2)
-(N1 + M2) * max(M1 + N2)
-
-이후 수정 필요
+5. 최소비용을 만족시키지 못하는 포인트는 비교할 필요가 없음
+- 기준 최솟값을 정해두고 최솟값이 등장하면 갱신한다.
+- 기준 최솟값을 넘는 포인트는 생략한다.
 '''
 
 import sys
@@ -53,17 +43,17 @@ def trans(arr, y, x):
 # 퍼즐 매칭 함수
 def matching(B1, B2, r, c, ovr, ovc):
     if N1 > N2:
-        b1y = max(0, r - min(N1, N2))
-        b2y = max(0, min(N1, N2) - r)
+        b1y = max(0, r - min(N1, N2))   # ok
+        b2y = max(0, N2 - r)   
     else:
-        b1y = max(0, r - max(N1, N2))
-        b2y = max(0, min(N1, N2) - r)
+        b1y = max(0, r - max(N1, N2))   # ok
+        b2y = max(0, N2 - r)
     if M1 > M2:
-        b1x = max(0, c - min(M1, M2))
-        b2x = max(0, c - max(M1, M2))
+        b1x = max(0, c - min(M1, M2))   # ok
+        b2x = max(0, M2 - c)
     else:
-        b1x = max(0, c - max(M1, M2))
-        b2x = max(0, c - max(M1, M2))
+        b1x = max(0, c - max(M1, M2))   # ok
+        b2x = max(0, M2 - c)
     for i in range(ovr):
         for j in range(ovc):
             if B1[i+b1y][j+b1x] == "1" and B2[i+b2y][j+b2x] == "1":
