@@ -20,16 +20,11 @@ def failFunc(pattern):
     cnt = 0
     j = 0
     for i in range(1, pattern_size):
+        while j > 0 and pattern[i] != pattern[j]:
+            j = fail_table[j - 1]
         if pattern[i] == pattern[j]:
-            cnt += 1
             j += 1
-        else:
-            cnt = 0
-            j = 0
-            if pattern[j] == pattern[i]:
-                cnt += 1
-                j += 1
-        fail_table[i] = cnt
+            fail_table[i] = j
 # 실패함수 실행
 failFunc(pattern)
 
