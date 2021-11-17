@@ -1,10 +1,5 @@
 # BOJ 2589 보물섬
 
-'''
-
-
-'''
-
 from collections import deque
 import sys
 input = sys.stdin.readline
