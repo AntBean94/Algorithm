@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import sys
 
 N = int(input())
@@ -18,3 +19,12 @@ def solution():
 
 
 print(solution())
+=======
+a = [1, 2, 3, 4, 5]
+b = []
+for i in a:
+    b.append(i)
+a = b
+b[2] = 100
+print(a, b)
+>>>>>>> 0e8f066209fe0511517b80b43043f210da524bfd
