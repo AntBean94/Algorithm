@@ -11,6 +11,6 @@ for k in range(N):
         for j in range(N):
             if graph[i][k] + graph[k][j] > 1:
                 graph[i][j] = 1
-print()
+
 for i in graph:
     print(*i)
