@@ -16,7 +16,7 @@ for tc in range(1, T + 1):
     # N으로 나눈 나머지가 y인 수의 집합
     ans = -1
     for i in range(y, M * N + 1, N):
-        if i in m_set: 
+        if i in m_set:
             ans = i
             break
     print(ans)
