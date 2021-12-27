@@ -3,11 +3,9 @@
 '''
 사다리와 뱀은 각각 최대 15개
 
-일종의 그래프...
-
 1번은 2, 3, 4, 5, 6, 7 로 이동가능한 그래프
 
-bfs
+bfs로 풀기
 '''
 
 from collections import deque
@@ -37,8 +35,6 @@ def bfs(x):
                 vis[y] = vis[x] + 1
                 Q.append(y)
     return
-# print(graph)
 
 vis = [0] * 101
 print(bfs(1))
-# print(vis)
