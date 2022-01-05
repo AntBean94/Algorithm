@@ -27,4 +27,3 @@ for l in range(L, 101):
         break
 if arr: print(*arr)
 else: print(-1)
-        
